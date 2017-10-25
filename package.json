@@ -17,6 +17,10 @@
   },
   "homepage": "https://github.com/trride/gojek-handler#readme",
   "dependencies": {
-    "axios": "^0.17.0"
+    "axios": "^0.17.0",
+    "dotenv": "^4.0.0"
+  },
+  "devDependencies": {
+    "np": "^2.16.0"
   }
 }
