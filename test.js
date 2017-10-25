@@ -1,9 +1,11 @@
 'use strict';
 
+require('dotenv').config()
+
 const Gojek = require('./getPrices');
 
 const config = {
-    authorization: 'Bearer 54e81f78-535b-4f81-b3d8-7ca1feaaaaac'
+    authorization: process.env.authorization
 }
 
 let start = {
