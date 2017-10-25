@@ -1,10 +1,11 @@
 {
   "name": "gojek-handler",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Gojek Handler",
   "main": "getPrices.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "release": "np"
   },
   "repository": {
     "type": "git",
