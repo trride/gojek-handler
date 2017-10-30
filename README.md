@@ -1,6 +1,6 @@
 # GO-JEK Handler
 
-an un-official promise-based API endpoints for GO-JEK's services.
+Un-official promise-based API endpoints for GO-JEK's services.
 
 ## Getting Started
 
