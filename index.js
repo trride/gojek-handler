@@ -20,7 +20,7 @@ class GojekHandler {
     };
 
     getPlaceNameFromLatLong(lat_long) {
-        return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${ lat_long }&key=AIzaSyBNrNDZwtw7EAkLxmYvzrHE7hFbvkIeSeQ`)
+        return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${ lat_long }&key=${ process.env.googleMapsGeocodeApiKey }`)
         .then(result => {
             let address = {
                 short_name: result.data.results[0].address_components[1].short_name || "Unnamed",
@@ -136,7 +136,7 @@ class GojekHandler {
     }
 
     // getDriverEstimatedTimeOfArrival (start) {
-    //     return axios.get('https://maps.googleapis.com/maps/api/directions/json?origin=-6.225963,106.8106523&destination=-6.225776,106.809794&key=${ process.env.googleMapsGeocodeApiKey }`)
+    //     return axios.get('https://maps.googleapis.com/maps/api/directions/json?origin=-6.225963,106.8106523&destination=-6.225776,106.809794&key=${ process.env.googleMapsApiKey }`)
     //     .then(result => {
     //         return result.data.routes[0].legs[0].duration
     //     });
