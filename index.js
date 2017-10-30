@@ -1,5 +1,6 @@
 'use strict'
 
+require('dotenv').config()
 const axios = require('axios');
 
 class GojekHandler {
@@ -135,7 +136,7 @@ class GojekHandler {
     }
 
     // getDriverEstimatedTimeOfArrival (start) {
-    //     return axios.get('https://maps.googleapis.com/maps/api/directions/json?origin=-6.225963,106.8106523&destination=-6.225776,106.809794&key=AIzaSyBNrNDZwtw7EAkLxmYvzrHE7hFbvkIeSeQ')
+    //     return axios.get('https://maps.googleapis.com/maps/api/directions/json?origin=-6.225963,106.8106523&destination=-6.225776,106.809794&key=${ process.env.googleMapsGeocodeApiKey }`)
     //     .then(result => {
     //         return result.data.routes[0].legs[0].duration
     //     });
