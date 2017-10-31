@@ -4,7 +4,7 @@
   "description": "Gojek Handler",
   "main": "index.js",
   "scripts": {
-    "release": "np"
+    "release": "np -- --access public"
   },
   "repository": {
     "type": "git",
