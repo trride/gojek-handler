@@ -71,7 +71,7 @@ class GojekHandler {
   }
 
   getMotorBikePrice(start, end) {
-    console.log("start", start);
+    // console.log("start", start);
     let origin_lat_long = `${start.lat},${start.long}`;
     let destination_lat_long = `${end.lat},${end.long}`;
     let itinerary = {
