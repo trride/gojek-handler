@@ -45,8 +45,6 @@ class GojekHandler {
       throw new Error("no start or end lat/long");
     }
 
-    let origin_lat_long = start.lat.concat(",", start.long);
-    let destination_lat_long = end.lat.concat(",", end.long);
     let origin_address_detail = await this.getPlaceNameFromLatLong(
       origin_lat_long
     );
@@ -71,11 +69,13 @@ class GojekHandler {
   }
 
   getMotorBikePrice(start, end) {
+    let origin_lat_long = start.lat.concat(",", start.long);
+    let destination_lat_long = end.lat.concat(",", end.long);
     let itinerary = {
       routeRequests: [
         {
-          originLatLong: `${start}`,
-          destinationLatLong: `${end}`,
+          originLatLong: origin_lat_long,
+          destinationLatLong: destination_lat_long,
           serviceType: 1
         }
       ],
