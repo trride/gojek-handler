@@ -18,7 +18,7 @@ let end = {
 let device_token = "";
 let gcm_key = "";
 
-const gojek = new Gojek.GojekHandler(config);
+const gojek = new Gojek(config);
 
 // async function getPrice(book = false) {
 //   let calculatedDetail = await gojek.getCalculateDetail(start, end);
@@ -94,6 +94,7 @@ const gojek = new Gojek.GojekHandler(config);
 // // getAcceptedCurrentBookingByOrderNo('RB-918208577');
 
 gojek
-  .stringToPOI("Gran", { lat: start.lat, long: start.long })
+  //   .stringToPOI("mall", { lat: start.lat, long: start.long })
+  .poiToCoord("ChIJ5QMPII3zaS4RzqxjFWPLVK8")
   .then(console.log)
   .catch(console.error);

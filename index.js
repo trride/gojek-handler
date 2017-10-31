@@ -18,6 +18,7 @@ class GojekHandler {
 
     this.getMotorBikePrice = this.getMotorBikePrice.bind(this);
     this.stringToPOI = this.stringToPOI.bind(this);
+    this.poiToCoord = this.poiToCoord.bind(this);
   }
 
   getPlaceNameFromLatLong(lat_long) {
@@ -203,8 +204,18 @@ class GojekHandler {
       poi: data
     };
   }
+
+  async poiToCoord(id) {
+    const { data: { data } } = await this.$http({
+      method: "get",
+      url: "/poi/v3/findLatLng",
+      params: {
+        placeid: id,
+        service_type: 1
+      }
+    });
+    return data;
+  }
 }
 
-module.exports = {
-  GojekHandler
-};
+module.exports = GojekHandler;
