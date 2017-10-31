@@ -1,0 +1,18 @@
+GET /poi/v3/findLatLng?placeid=ChIJY9TrwiH0aS4RrvGqlZvI_Mw&service_type=1 HTTP/1.1
+Host: api.gojekapi.com
+X-AppId: com.go-jek.ios
+Authorization: Bearer 43b1a41c-7434-4e7a-a5eb-91962df3ade8
+X-Location: -6.22610665869155,106.809062044216
+Accept: */*
+X-User-Locale: en_ID
+X-DeviceToken: 0079AFDDEB82E382FAD0F188C45E71388692FAFDA93CB21708FE099A453E78BB
+Accept-Language: en-ID
+Accept-Encoding: gzip;q=1.0, compress;q=0.5
+X-Instance-Token: NA
+X-Updater: 1
+User-Agent: GO-JEK/2.30 (com.go-jek.ios; build:2.30.0.2; iOS 11.0.3) Alamofire/4.4.0
+Connection: keep-alive
+X-Platform: iOS
+X-UniqueId: 77292444-CA1F-4FCA-9AC7-E497DA572D71
+X-AppVersion: 2.30
+
