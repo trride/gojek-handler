@@ -94,8 +94,8 @@ const gojek = new Gojek(config);
 // // getAcceptedCurrentBookingByOrderNo('RB-918208577');
 
 gojek
-  .getMotorBikePrice(start, end)
-  //     .stringToPOI("mall", { lat: start.lat, long: start.long })
-  //   .poiToCoord("ChIJ5QMPII3zaS4RzqxjFWPLVK8")
+  //   .getMotorBikePrice(start, end)
+  //   .stringToPOI("mall", { lat: start.lat, long: start.long })
+  .poiToCoord("ChIJ0dovDGD5aS4RFzWaaNKJ4TQ")
   .then(console.log)
   .catch(console.error);

@@ -1,6 +1,5 @@
 "use strict";
 
-require("dotenv").config();
 const axios = require("axios");
 
 class GojekHandler {
@@ -19,25 +18,6 @@ class GojekHandler {
     this.getMotorBikePrice = this.getMotorBikePrice.bind(this);
     this.stringToPOI = this.stringToPOI.bind(this);
     this.poiToCoord = this.poiToCoord.bind(this);
-  }
-
-  getPlaceNameFromLatLong(lat_long) {
-    return axios
-      .get(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat_long}&key=${process
-          .env.googleMapsGeocodeApiKey}`
-      )
-      .then(result => {
-        let address = {
-          short_name:
-            result.data.results[0].address_components[1].short_name ||
-            "Unnamed",
-          formatted_address:
-            result.data.results[0].formatted_address || "Unnamed"
-        };
-
-        return address;
-      });
   }
 
   async getCalculateDetail(start, end) {
@@ -71,7 +51,6 @@ class GojekHandler {
   }
 
   getMotorBikePrice(start, end) {
-    // console.log("start", start);
     let origin_lat_long = `${start.lat},${start.long}`;
     let destination_lat_long = `${end.lat},${end.long}`;
     let itinerary = {
@@ -94,7 +73,7 @@ class GojekHandler {
             fixed: true,
             high: result.data.totalCash,
             low: result.data.totalCash,
-            estimate_token: result.data.estimate_token
+            requestKey: result.data.estimate_token
           }
         };
 
@@ -163,13 +142,6 @@ class GojekHandler {
       });
   }
 
-  // getDriverEstimatedTimeOfArrival (start) {
-  //     return axios.get('https://maps.googleapis.com/maps/api/directions/json?origin=-6.225963,106.8106523&destination=-6.225776,106.809794&key=${ process.env.googleMapsApiKey }`)
-  //     .then(result => {
-  //         return result.data.routes[0].legs[0].duration
-  //     });
-  // }
-
   getActiveBooking() {
     return this.$http.get("/v1/customers/active_bookings").then(result => {
       return result.data;
@@ -193,7 +165,7 @@ class GojekHandler {
       .catch(err => err.response.data);
   }
 
-  async stringToPOI(str, from = { lat: 6, long: 6 }) {
+  async stringToPOI(str, from = { lat: -6, long: 106 }) {
     const { data: { data } } = await this.$http({
       method: "get",
       url: "/poi/v3/findPoi",
