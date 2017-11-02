@@ -73,19 +73,13 @@ class GojekHandler {
     return this.$http
       .post("/gojek/v2/calculate/gopay", itinerary)
       .then(result => {
-        let finalResult = {
-          price: {
-            fixed: true,
-            high: result.data.totalCash,
-            low: result.data.totalCash,
-            requestKey: {
-              key: result.data.estimate_token,
-              expiresAt: Date.now() + ms("5 minutes")
-            }
+        return {
+          price: result.data.totalCash,
+          requestKey: {
+            key: result.data.estimate_token,
+            expiresAt: Date.now() + ms("5 minutes")
           }
         };
-
-        return finalResult;
       });
   }
 
