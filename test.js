@@ -15,46 +15,43 @@ let end = {
   lat: "-7.112052442319981",
   long: "107.44106613099575"
 };
-let device_token = "";
-let gcm_key = "";
+let deviceToken = "";
+let gcmKey = "";
 
 const gojek = new Gojek(config);
 
-// async function getPrice(book = false) {
-//   let calculatedDetail = await gojek.getCalculateDetail(start, end);
-//   const motorBikePriceResult = await gojek.getMotorBikePrice(
-//     calculatedDetail.start.origin_lat_long,
-//     calculatedDetail.end.destination_lat_long
-//   );
+async function getPriceAndBook (start, end, book = false) {
+  let motorBikePriceResult = await gojek.getMotorBikePrice(start, end)
 
-//   if (!book) {
-//     console.log(motorBikePriceResult);
-//     return motorBikePriceResult;
-//   }
-//   return bookRide(calculatedDetail, motorBikePriceResult);
-// }
+  if (!book) {
+    return motorBikePriceResult;
+  }
 
-// async function bookRide(calculatedDetail, motorBikePriceResult) {
-//   const bookingData = await gojek.booking(
-//     calculatedDetail.start,
-//     calculatedDetail.end,
-//     motorBikePriceResult.price.estimate_token,
-//     device_token,
-//     gcm_key
-//   );
-//   console.log(bookingData);
-// }
+  return bookRide(start, end, motorBikePriceResult);
+}
 
-// getPrice();
+async function bookRide(start, end, motorBikePriceResult) {
+  const bookingData = await gojek.booking(
+    start,
+    end,
+    motorBikePriceResult.price.estimateToken,
+    deviceToken,
+    gcmKey
+  );
+  console.log(bookingData);
+}
 
-// async function getPlace() {
-//   let test = await gojek.getPlaceNameFromLatLong(
-//     "-7.115222030783675,107.43785351514816"
-//   );
-//   console.log(test);
-// }
+// To Just Calculate price
+// getPriceAndBook(start, end, false);
 
-// // getPlace();
+// To Directly Book
+// getPriceAndBook(start, end, true);
+
+gojek
+.stringToPOI("mall", { lat: start.lat, long: start.long })
+// .poiToCoord("ChIJ0dovDGD5aS4RFzWaaNKJ4TQ")
+.then(console.log)
+.catch(console.error)
 
 // async function cancelList() {
 //   let cancelList = await gojek.cancelList();
@@ -93,13 +90,7 @@ const gojek = new Gojek(config);
 
 // // getAcceptedCurrentBookingByOrderNo('RB-918208577');
 
-async function bookDirectly () {
-    var motorBikePriceResult = await gojek.getMotorBikePrice(start, end)
-    console.log(motorBikePriceResult.price.estimateToken);
-    var bookingData = await gojek.booking(start, end, motorBikePriceResult.price.estimateToken);
-    console.log(bookingData);
-}
-bookDirectly();
+
 // gojek
 //   .getMotorBikePrice(start, end)
 //   // .stringToPOI("mall", { lat: start.lat, long: start.long })
