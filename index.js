@@ -27,23 +27,25 @@ class GojekHandler {
     let origin_lat_long = start.lat.concat(",", start.long);
     let destination_lat_long = end.lat.concat(",", end.long);
 
-    let origin_address_detail = await this.getPlaceNameFromLatLong(
-      origin_lat_long
-    );
-    let destination_address_detail = await this.getPlaceNameFromLatLong(
-      destination_lat_long
-    );
+    // let origin_address_detail = await this.stringToPOI(
+    //   '',
+    //   { start.lat, start.long }
+    // );
+    // let destination_address_detail = await this.stringToPOI(
+    //   '',
+    //   { destination.lat, destination.long }
+    // );
 
     let detailedAddress = {
       start: {
         origin_lat_long: origin_lat_long,
-        origin_name: origin_address_detail.short_name,
-        origin_address: destination_address_detail.formatted_address
+        origin_name: origin_address_detail.poi.name,
+        origin_address: destination_address_detail.poi.address
       },
       end: {
         destination_lat_long: destination_lat_long,
-        destination_name: origin_address_detail.short_name,
-        destination_address: destination_address_detail.formatted_address
+        destination_name: origin_address_detail.poi.name,
+        destination_address: destination_address_detail.poi.address
       }
     };
 
@@ -73,7 +75,7 @@ class GojekHandler {
             fixed: true,
             high: result.data.totalCash,
             low: result.data.totalCash,
-            requestKey: result.data.estimate_token
+            estimateToken: result.data.estimate_token
           }
         };
 
@@ -92,16 +94,16 @@ class GojekHandler {
   ) {
     let itinerary = {
       activity_source: 2,
-      destination_address: `${end.destination_address}`,
-      destination_lat_long: `${end.destination_lat_long}`,
-      destination_name: `${end.destination_name}`,
+      destination_address: ``,
+      destination_lat_long: `${end.lat},${end.long}`,
+      destination_name: `destination_test`,
       destination_note: `${destination_note}`,
       device_token: `${device_token}`,
       estimate_token: `${estimate_token}`,
       gcm_key: `${gcm_key}`,
-      origin_address: `${start.origin_address}`,
-      origin_lat_long: `${start.origin_lat_long}`,
-      origin_name: `${start.origin_name}`,
+      origin_address: ``,
+      origin_lat_long: `${start.lat},${start.long}`,
+      origin_name: `origin_test`,
       origin_note: `${origin_note}`,
       payment_type: 0,
       service_type: 1

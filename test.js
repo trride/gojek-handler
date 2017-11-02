@@ -8,7 +8,7 @@ const config = {
   authorization: process.env.authorization
 };
 let start = {
-  lat: "-6.115222030783675",
+  lat: "-7.115222030783675",
   long: "107.43785351514816"
 };
 let end = {
@@ -93,9 +93,22 @@ const gojek = new Gojek(config);
 
 // // getAcceptedCurrentBookingByOrderNo('RB-918208577');
 
-gojek
-  //   .getMotorBikePrice(start, end)
-  //   .stringToPOI("mall", { lat: start.lat, long: start.long })
-  .poiToCoord("ChIJ0dovDGD5aS4RFzWaaNKJ4TQ")
-  .then(console.log)
-  .catch(console.error);
+async function bookDirectly () {
+    var motorBikePriceResult = await gojek.getMotorBikePrice(start, end)
+    console.log(motorBikePriceResult.price.estimateToken);
+    var bookingData = await gojek.booking(start, end, motorBikePriceResult.price.estimateToken);
+    console.log(bookingData);
+}
+bookDirectly();
+// gojek
+//   .getMotorBikePrice(start, end)
+//   // .stringToPOI("mall", { lat: start.lat, long: start.long })
+//   // .poiToCoord("ChIJ0dovDGD5aS4RFzWaaNKJ4TQ")
+//   // .then(console.log)
+//   .then(res => {
+//       gojek
+//       .booking(start, end, res.price.estimateToken)
+//       .then(console.log)
+//       .catch(console.error)
+//   })
+//   .catch(console.error);
