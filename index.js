@@ -1,6 +1,7 @@
 "use strict";
 
 const axios = require("axios");
+const ms = require("ms");
 
 class GojekHandler {
   constructor(config) {
@@ -18,6 +19,8 @@ class GojekHandler {
     this.getMotorBikePrice = this.getMotorBikePrice.bind(this);
     this.stringToPOI = this.stringToPOI.bind(this);
     this.poiToCoord = this.poiToCoord.bind(this);
+
+    this.getEstimate = this.getMotorBikePrice;
   }
 
   async getCalculateDetail(start, end) {
@@ -75,7 +78,10 @@ class GojekHandler {
             fixed: true,
             high: result.data.totalCash,
             low: result.data.totalCash,
-            estimateToken: result.data.estimate_token
+            requestKey: {
+              key: result.data.estimate_token,
+              expiresAt: Date.now() + ms("5 minutes")
+            }
           }
         };
 
@@ -99,7 +105,7 @@ class GojekHandler {
       destination_name: `destination_test`,
       destination_note: `${destination_note}`,
       device_token: `${device_token}`,
-      estimate_token: `${estimate_token}`,
+      estimate_token: estimate_token,
       gcm_key: `${gcm_key}`,
       origin_address: ``,
       origin_lat_long: `${start.lat},${start.long}`,
@@ -192,6 +198,18 @@ class GojekHandler {
       }
     });
     return data;
+  }
+
+  async requestRide(requestKey, start, end) {
+    const { order_number } = await this.booking(start, end, requestKey);
+    return { requestId: order_number };
+  }
+
+  async cancelRide(requestId) {
+    const { statusCode } = await this.cancelBooking(requestId);
+    return {
+      cancelled: statusCode === 200 ? true : false
+    };
   }
 }
 

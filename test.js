@@ -20,8 +20,8 @@ let gcmKey = "";
 
 const gojek = new Gojek(config);
 
-async function getPriceAndBook (start, end, book = false) {
-  let motorBikePriceResult = await gojek.getMotorBikePrice(start, end)
+async function getPriceAndBook(start, end, book = false) {
+  let motorBikePriceResult = await gojek.getMotorBikePrice(start, end);
 
   if (!book) {
     return motorBikePriceResult;
@@ -48,10 +48,17 @@ async function bookRide(start, end, motorBikePriceResult) {
 // getPriceAndBook(start, end, true);
 
 gojek
-.stringToPOI("mall", { lat: start.lat, long: start.long })
-// .poiToCoord("ChIJ0dovDGD5aS4RFzWaaNKJ4TQ")
-.then(console.log)
-.catch(console.error)
+  // .getMotorBikePrice(start, end)
+  // .requestRide(
+  //   "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XG4gIFwiY3VzdG9tZXJfaWRcIjogXCI1NDM1Njg2MjBcIixcbiAgXCJzZXJ2aWNlX3R5cGVcIjogMSxcbiAgXCJzdXJnZV9mYWN0b3JcIjogMS4wLFxuICBcImxhdFwiOiAtNy4xMTUyMjIwMzA3ODM2NzUsXG4gIFwibG5nXCI6IDEwNy40Mzc4NTM1MTUxNDgxNlxufSIsImV4cCI6MTUwOTY0NDgxNn0.2h1zzVForwnuOoWZ6GwS2IMwr6foAZVdRRIZwmn79ZFJ3Kn9_ypwRVgME3IJNbM6HtLiB-3dcx4hNANz8Hr0ng",
+  //   start,
+  //   end
+  // )
+  .cancelRide("RB-928304503")
+  // .stringToPOI("mall", { lat: start.lat, long: start.long })
+  // .poiToCoord("ChIJ0dovDGD5aS4RFzWaaNKJ4TQ")
+  .then(console.log)
+  .catch(console.error);
 
 // async function cancelList() {
 //   let cancelList = await gojek.cancelList();
@@ -89,7 +96,6 @@ gojek
 // }
 
 // // getAcceptedCurrentBookingByOrderNo('RB-918208577');
-
 
 // gojek
 //   .getMotorBikePrice(start, end)
