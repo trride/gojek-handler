@@ -83,28 +83,20 @@ class GojekHandler {
       });
   }
 
-  booking(
-    start,
-    end,
-    estimate_token,
-    device_token = "",
-    gcm_key = "",
-    origin_note = "",
-    destination_note = ""
-  ) {
+  booking(start, end, estimate_token, device_token = "", gcm_key = "") {
     let itinerary = {
       activity_source: 2,
       destination_address: ``,
       destination_lat_long: `${end.lat},${end.long}`,
-      destination_name: `destination_test`,
-      destination_note: `${destination_note}`,
+      destination_name: `${end.name}` || "TRIDE_DESTINATION",
+      destination_note: `${end.desc}`,
       device_token: `${device_token}`,
       estimate_token: estimate_token,
       gcm_key: `${gcm_key}`,
       origin_address: ``,
       origin_lat_long: `${start.lat},${start.long}`,
-      origin_name: `origin_test`,
-      origin_note: `${origin_note}`,
+      origin_name: start.name || "TRIDE_ORIGIN",
+      origin_note: `${start.desc}`,
       payment_type: 0,
       service_type: 1
     };
