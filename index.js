@@ -142,7 +142,43 @@ class GojekHandler {
     });
   }
 
-  async getCurrentBookingByOrderNo(orderNo) {
+  getAcceptedCurrentBookingByOrderNo(orderNo) {
+    return this.$http
+      .get(`/gojek/v2/booking/${orderNo}/driver`)
+      .then(result => {
+        return result.data;
+      })
+      .catch(err => err.response.data);
+  }
+
+  async stringToPOI(str, from = { lat: -6, long: 106 }) {
+    const { data: { data } } = await this.$http({
+      method: "get",
+      url: "/poi/v3/findPoi",
+      params: {
+        location: `${from.lat}%2C${from.long}`,
+        name: str,
+        service_type: 1
+      }
+    });
+    return {
+      poi: data
+    };
+  }
+
+  async poiToCoord(id) {
+    const { data: { data } } = await this.$http({
+      method: "get",
+      url: "/poi/v3/findLatLng",
+      params: {
+        placeid: id,
+        service_type: 1
+      }
+    });
+    return data;
+  }
+
+  async rideStatus(orderNo) {
     if (!orderNo) {
       throw new Error('No Order Number Given');
     }
@@ -189,42 +225,6 @@ class GojekHandler {
       });
   }
 
-  getAcceptedCurrentBookingByOrderNo(orderNo) {
-    return this.$http
-      .get(`/gojek/v2/booking/${orderNo}/driver`)
-      .then(result => {
-        return result.data;
-      })
-      .catch(err => err.response.data);
-  }
-
-  async stringToPOI(str, from = { lat: -6, long: 106 }) {
-    const { data: { data } } = await this.$http({
-      method: "get",
-      url: "/poi/v3/findPoi",
-      params: {
-        location: `${from.lat}%2C${from.long}`,
-        name: str,
-        service_type: 1
-      }
-    });
-    return {
-      poi: data
-    };
-  }
-
-  async poiToCoord(id) {
-    const { data: { data } } = await this.$http({
-      method: "get",
-      url: "/poi/v3/findLatLng",
-      params: {
-        placeid: id,
-        service_type: 1
-      }
-    });
-    return data;
-  }
-
   async requestRide(requestKey, start, end) {
     const { order_number } = await this.booking(requestKey, start, end);
     return {
@@ -236,7 +236,8 @@ class GojekHandler {
   async cancelRide(requestId) {
     const { statusCode } = await this.cancelBooking(requestId);
     return {
-      cancelled: statusCode === 200 ? true : false
+      service: 'gojek',
+      success: statusCode === 200 ? true : false
     };
   }
 }

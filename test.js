@@ -82,7 +82,7 @@ async function bookRide(start, end, motorBikePriceResult) {
 // // getActiveBooking();
 
 async function getCurrentBookingByOrderNo(orderNo) {
-  let currentBookingDetail = await gojek.getCurrentBookingByOrderNo(orderNo);
+  let currentBookingDetail = await gojek.rideStatus(orderNo);
   console.log(currentBookingDetail);
 }
 
