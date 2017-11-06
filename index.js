@@ -83,7 +83,7 @@ class GojekHandler {
       });
   }
 
-  booking(start, end, estimate_token, device_token = "", gcm_key = "") {
+  booking(estimate_token, start, end, device_token = "", gcm_key = "") {
     let itinerary = {
       activity_source: 2,
       destination_address: ``,
@@ -142,11 +142,50 @@ class GojekHandler {
     });
   }
 
-  getCurrentBookingByOrderNo(orderNo) {
+  async getCurrentBookingByOrderNo(orderNo) {
+    if (!orderNo) {
+      throw new Error('No Order Number Given');
+    }
+
     return this.$http
       .get(`/gojek/v2/booking/findByOrderNo/${orderNo}`)
-      .then(result => {
-        return result.data;
+      .then(async result => {
+        var activeBooking = await this.getActiveBooking();
+        var orderStatus = activeBooking.data.bookings.filter(el => {
+          return el.order_number === orderNo;
+        })[0];
+
+        if (!orderStatus) {
+          if (result.data.cancelReasonId === null) {
+            orderStatus = result.data.driverName === null ? 'not_found' : 'completed'
+          } else {
+            orderStatus = 'canceled';
+          }
+        } else {
+          switch (orderStatus.status) {
+            case 'SEARCHING': orderStatus = 'processing'; break;
+            case 'DRIVER_FOUND': orderStatus = 'accepted'; break;
+            case 'PICKED_UP': orderStatus = 'on_the_way'; break;
+            default: orderStatus = null;
+          }
+        }
+
+        var bookingData = {
+          status: orderStatus,
+          service: 'gojek',
+          requestId: orderNo,
+          driver: {
+            name: result.data.driverName || null,
+            rating: null,
+            pictureUrl: result.data.driverPhoto || null,
+            phoneNumber: result.data.driverPhone || null,
+            vehicle: {
+              plate: result.data.noPolisi || null,
+              name: result.data.driverVehicleBrand || null
+            }
+          }
+        }
+        return bookingData;
       });
   }
 
@@ -187,8 +226,11 @@ class GojekHandler {
   }
 
   async requestRide(requestKey, start, end) {
-    const { order_number } = await this.booking(start, end, requestKey);
-    return { requestId: order_number };
+    const { order_number } = await this.booking(requestKey, start, end);
+    return {
+      service: 'gojek',
+      requestId: order_number
+    };
   }
 
   async cancelRide(requestId) {

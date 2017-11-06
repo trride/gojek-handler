@@ -32,9 +32,9 @@ async function getPriceAndBook(start, end, book = false) {
 
 async function bookRide(start, end, motorBikePriceResult) {
   const bookingData = await gojek.booking(
+    motorBikePriceResult.price.estimateToken,
     start,
     end,
-    motorBikePriceResult.price.estimateToken,
     deviceToken,
     gcmKey
   );
@@ -47,18 +47,18 @@ async function bookRide(start, end, motorBikePriceResult) {
 // To Directly Book
 // getPriceAndBook(start, end, true);
 
-gojek
-  // .getMotorBikePrice(start, end)
-  // .requestRide(
-  //   "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XG4gIFwiY3VzdG9tZXJfaWRcIjogXCI1NDM1Njg2MjBcIixcbiAgXCJzZXJ2aWNlX3R5cGVcIjogMSxcbiAgXCJzdXJnZV9mYWN0b3JcIjogMS4wLFxuICBcImxhdFwiOiAtNy4xMTUyMjIwMzA3ODM2NzUsXG4gIFwibG5nXCI6IDEwNy40Mzc4NTM1MTUxNDgxNlxufSIsImV4cCI6MTUwOTY0NDgxNn0.2h1zzVForwnuOoWZ6GwS2IMwr6foAZVdRRIZwmn79ZFJ3Kn9_ypwRVgME3IJNbM6HtLiB-3dcx4hNANz8Hr0ng",
-  //   start,
-  //   end
-  // )
-  .cancelRide("RB-928304503")
-  // .stringToPOI("mall", { lat: start.lat, long: start.long })
-  // .poiToCoord("ChIJ0dovDGD5aS4RFzWaaNKJ4TQ")
-  .then(console.log)
-  .catch(console.error);
+// gojek
+//   // .getMotorBikePrice(start, end)
+//   // .requestRide(
+//   //   "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XG4gIFwiY3VzdG9tZXJfaWRcIjogXCI1NDM1Njg2MjBcIixcbiAgXCJzZXJ2aWNlX3R5cGVcIjogMSxcbiAgXCJzdXJnZV9mYWN0b3JcIjogMS4wLFxuICBcImxhdFwiOiAtNy4xMTUyMjIwMzA3ODM2NzUsXG4gIFwibG5nXCI6IDEwNy40Mzc4NTM1MTUxNDgxNlxufSIsImV4cCI6MTUwOTY0NDgxNn0.2h1zzVForwnuOoWZ6GwS2IMwr6foAZVdRRIZwmn79ZFJ3Kn9_ypwRVgME3IJNbM6HtLiB-3dcx4hNANz8Hr0ng",
+//   //   start,
+//   //   end
+//   // )
+//   .cancelRide("RB-928304503")
+//   // .stringToPOI("mall", { lat: start.lat, long: start.long })
+//   // .poiToCoord("ChIJ0dovDGD5aS4RFzWaaNKJ4TQ")
+//   .then(console.log)
+//   .catch(console.error);
 
 // async function cancelList() {
 //   let cancelList = await gojek.cancelList();
@@ -81,12 +81,18 @@ gojek
 
 // // getActiveBooking();
 
-// async function getCurrentBookingByOrderNo(orderNo) {
-//   let currentBookingDetail = await gojek.getCurrentBookingByOrderNo(orderNo);
-//   console.log(currentBookingDetail);
-// }
+async function getCurrentBookingByOrderNo(orderNo) {
+  let currentBookingDetail = await gojek.getCurrentBookingByOrderNo(orderNo);
+  console.log(currentBookingDetail);
+}
 
-// // getCurrentBookingByOrderNo('RB-918208577');
+//-- Canceled
+getCurrentBookingByOrderNo('RB-929194418');
+//-- Completed
+// getCurrentBookingByOrderNo('RB-928148964');
+//-- Not Found
+// getCurrentBookingByOrderNo('RB-936769375');
+
 
 // async function getAcceptedCurrentBookingByOrderNo(orderNo) {
 //   let acceptedCurrentBookingDetail = await gojek.getAcceptedCurrentBookingByOrderNo(
