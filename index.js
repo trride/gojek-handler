@@ -1,5 +1,6 @@
 "use strict";
 
+requrie('dotenv').config()
 const axios = require("axios");
 const ms = require("ms");
 
@@ -9,8 +10,10 @@ class GojekHandler {
       throw new Error("No Gojek Token supplied");
     }
 
+    this.baseURL = process.env.NODE_ENV == 'development' ? process.env.DEV_BASE_URL : 'https://api.gojekapi.com'
+
     this.$http = axios.create({
-      baseURL: "https://api.gojekapi.com",
+      baseURL: this.baseURL,
       headers: {
         Authorization: config.authorization
       }
@@ -188,12 +191,12 @@ class GojekHandler {
       .then(async result => {
         var activeBooking = await this.getActiveBooking();
         var orderStatus = activeBooking.data.bookings.filter(el => {
-          return el.order_number === orderNo;
+          return el.order_number == orderNo;
         })[0];
 
         if (!orderStatus) {
-          if (result.data.cancelReasonId === null) {
-            orderStatus = result.data.driverName === null ? 'not_found' : 'completed'
+          if (result.data.cancelReasonId == null) {
+            orderStatus = result.data.driverName == null ? 'not_found' : 'completed'
           } else {
             orderStatus = 'canceled';
           }
