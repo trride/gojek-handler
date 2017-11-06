@@ -1,6 +1,6 @@
 "use strict";
 
-requrie('dotenv').config()
+require('dotenv').config()
 const axios = require("axios");
 const ms = require("ms");
 
