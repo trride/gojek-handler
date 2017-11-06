@@ -1,6 +1,6 @@
 {
   "name": "gojek-handler",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Gojek Handler",
   "main": "index.js",
   "scripts": {
