@@ -87,12 +87,11 @@ async function getCurrentBookingByOrderNo(orderNo) {
 }
 
 //-- Canceled
-getCurrentBookingByOrderNo('RB-929194418');
+// getCurrentBookingByOrderNo('RB-929194418');
 //-- Completed
 // getCurrentBookingByOrderNo('RB-928148964');
 //-- Not Found
 // getCurrentBookingByOrderNo('RB-936769375');
-
 
 // async function getAcceptedCurrentBookingByOrderNo(orderNo) {
 //   let acceptedCurrentBookingDetail = await gojek.getAcceptedCurrentBookingByOrderNo(
@@ -115,3 +114,13 @@ getCurrentBookingByOrderNo('RB-929194418');
 //       .catch(console.error)
 //   })
 //   .catch(console.error);
+
+gojek
+  .reverseGeocode({
+    longitude: 106.78162,
+    latitude: -6.260719
+  })
+  .then(data => {
+    console.log(data);
+  })
+  .catch(console.error);
