@@ -24,7 +24,7 @@ class GojekHandler {
     this.reverseGeocode = this.reverseGeocode.bind(this);
     this.getEstimate = this.getMotorBikePrice;
     this.requestRide = this.requestRide.bind(this)
-
+    this.rideStatus = this.rideStatus.bind(this)
   }
 
   async getCalculateDetail(start, end) {
