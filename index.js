@@ -22,8 +22,9 @@ class GojekHandler {
     this.getMotorBikePrice = this.getMotorBikePrice.bind(this);
     this.stringToPOI = this.stringToPOI.bind(this);
     this.poiToCoord = this.poiToCoord.bind(this);
-
     this.getEstimate = this.getMotorBikePrice;
+    this.requestRide = this.requestRide.bind(this)
+
   }
 
   async getCalculateDetail(start, end) {
