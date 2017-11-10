@@ -120,5 +120,7 @@ gojek
     longitude: 106.78162,
     latitude: -6.260719
   })
-  .then(console.log)
+  .then(data => {
+    console.log(data);
+  })
   .catch(console.error);

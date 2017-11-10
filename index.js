@@ -158,7 +158,7 @@ class GojekHandler {
       method: "get",
       url: "/poi/v3/findPoi",
       params: {
-        location: `${from.lat}%2C${from.long}`,
+        location: `${from.lat},${from.long}`,
         name: str,
         service_type: 1
       }
