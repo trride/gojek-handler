@@ -25,6 +25,7 @@ class GojekHandler {
     this.getEstimate = this.getMotorBikePrice;
     this.requestRide = this.requestRide.bind(this)
     this.rideStatus = this.rideStatus.bind(this)
+    this.cancelRide = this.cancelRide.bind(this)
   }
 
   async getCalculateDetail(start, end) {
