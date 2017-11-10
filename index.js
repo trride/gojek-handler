@@ -255,8 +255,9 @@ class GojekHandler {
   }
 
   async reverseGeocode({ latitude, longitude }) {
-    const latLong = `${latitude}${longitude}`;
-    const { data: { data } } = await this.$http({
+    const latLong = `${latitude},${longitude}`;
+
+    const { data } = await this.$http({
       method: "get",
       url: "/gojek/poi/reverse-geocode",
       params: {
