@@ -1,6 +1,6 @@
 "use strict";
 
-require('dotenv').config()
+require("dotenv").config();
 const axios = require("axios");
 const ms = require("ms");
 
@@ -10,7 +10,7 @@ class GojekHandler {
       throw new Error("No Gojek Token supplied");
     }
 
-    this.baseURL = process.env.NODE_ENV == 'development' ? process.env.DEV_BASE_URL + '/gojek' : 'https://api.gojekapi.com'
+    this.baseURL = config.baseURL || "https://api.gojekapi.com";
 
     this.$http = axios.create({
       baseURL: this.baseURL,
@@ -18,10 +18,10 @@ class GojekHandler {
         Authorization: config.authorization
       }
     });
-
     this.getMotorBikePrice = this.getMotorBikePrice.bind(this);
     this.stringToPOI = this.stringToPOI.bind(this);
     this.poiToCoord = this.poiToCoord.bind(this);
+    this.reverseGeocode = this.reverseGeocode.bind(this);
     this.getEstimate = this.getMotorBikePrice;
     this.requestRide = this.requestRide.bind(this)
 
@@ -160,7 +160,7 @@ class GojekHandler {
       method: "get",
       url: "/poi/v3/findPoi",
       params: {
-        location: `${from.lat}%2C${from.long}`,
+        location: `${from.lat},${from.long}`,
         name: str,
         service_type: 1
       }
@@ -184,7 +184,7 @@ class GojekHandler {
 
   async rideStatus(orderNo) {
     if (!orderNo) {
-      throw new Error('No Order Number Given');
+      throw new Error("No Order Number Given");
     }
 
     return this.$http
@@ -197,22 +197,30 @@ class GojekHandler {
 
         if (!orderStatus) {
           if (result.data.cancelReasonId == null) {
-            orderStatus = result.data.driverName == null ? 'not_found' : 'completed'
+            orderStatus =
+              result.data.driverName == null ? "not_found" : "completed";
           } else {
-            orderStatus = 'canceled';
+            orderStatus = "canceled";
           }
         } else {
           switch (orderStatus.status) {
-            case 'SEARCHING': orderStatus = 'processing'; break;
-            case 'DRIVER_FOUND': orderStatus = 'accepted'; break;
-            case 'PICKED_UP': orderStatus = 'on_the_way'; break;
-            default: orderStatus = null;
+            case "SEARCHING":
+              orderStatus = "processing";
+              break;
+            case "DRIVER_FOUND":
+              orderStatus = "accepted";
+              break;
+            case "PICKED_UP":
+              orderStatus = "on_the_way";
+              break;
+            default:
+              orderStatus = null;
           }
         }
 
         var bookingData = {
           status: orderStatus,
-          service: 'gojek',
+          service: "gojek",
           requestId: orderNo,
           driver: {
             name: result.data.driverName || null,
@@ -224,7 +232,7 @@ class GojekHandler {
               name: result.data.driverVehicleBrand || null
             }
           }
-        }
+        };
         return bookingData;
       });
   }
@@ -232,7 +240,7 @@ class GojekHandler {
   async requestRide(requestKey, start, end) {
     const { order_number } = await this.booking(requestKey, start, end);
     return {
-      service: 'gojek',
+      service: "gojek",
       requestId: order_number
     };
   }
@@ -240,9 +248,22 @@ class GojekHandler {
   async cancelRide(requestId) {
     const { statusCode } = await this.cancelBooking(requestId);
     return {
-      service: 'gojek',
+      service: "gojek",
       success: statusCode === 200 ? true : false
     };
+  }
+
+  async reverseGeocode({ latitude, longitude }) {
+    const latLong = `${latitude},${longitude}`;
+
+    const { data } = await this.$http({
+      method: "get",
+      url: "/gojek/poi/reverse-geocode",
+      params: {
+        latLong
+      }
+    });
+    return data;
   }
 }
 
