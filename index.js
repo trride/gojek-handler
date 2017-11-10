@@ -21,7 +21,10 @@ class GojekHandler {
         Authorization: config.authorization
       }
     });
-
+    this.getMotorBikePrice = this.getMotorBikePrice.bind(this);
+    this.stringToPOI = this.stringToPOI.bind(this);
+    this.poiToCoord = this.poiToCoord.bind(this);
+    this.reverseGeocode = this.reverseGeocode.bind(this);
     this.getEstimate = this.getMotorBikePrice;
   }
 
@@ -57,7 +60,7 @@ class GojekHandler {
     return detailedAddress;
   }
 
-  getMotorBikePrice = (start, end) => {
+  getMotorBikePrice(start, end) {
     let origin_lat_long = `${start.lat},${start.long}`;
     let destination_lat_long = `${end.lat},${end.long}`;
     let itinerary = {
@@ -83,7 +86,7 @@ class GojekHandler {
           }
         };
       });
-  };
+  }
 
   booking(estimate_token, start, end, device_token = "", gcm_key = "") {
     let itinerary = {
@@ -153,7 +156,7 @@ class GojekHandler {
       .catch(err => err.response.data);
   }
 
-  stringToPOI = async (str, from = { lat: -6, long: 106 }) => {
+  async stringToPOI(str, from = { lat: -6, long: 106 }) {
     const { data: { data } } = await this.$http({
       method: "get",
       url: "/poi/v3/findPoi",
@@ -166,9 +169,9 @@ class GojekHandler {
     return {
       poi: data
     };
-  };
+  }
 
-  poiToCoord = async id => {
+  async poiToCoord(id) {
     const { data: { data } } = await this.$http({
       method: "get",
       url: "/poi/v3/findLatLng",
@@ -178,7 +181,7 @@ class GojekHandler {
       }
     });
     return data;
-  };
+  }
 
   async rideStatus(orderNo) {
     if (!orderNo) {
