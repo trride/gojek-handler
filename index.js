@@ -10,10 +10,7 @@ class GojekHandler {
       throw new Error("No Gojek Token supplied");
     }
 
-    this.baseURL =
-      process.env.NODE_ENV == "development"
-        ? process.env.DEV_BASE_URL + "/gojek"
-        : "https://api.gojekapi.com";
+    this.baseURL = config.baseURL || "https://api.gojekapi.com";
 
     this.$http = axios.create({
       baseURL: this.baseURL,
